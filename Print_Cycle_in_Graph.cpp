@@ -11,19 +11,31 @@ bool cycle = false;
 
 // vis[node]=2;  node is visited and is not in stack
 
-void dfs(int node, int parent)
+// Storing Parent of each node
+int parent[N];
+
+void dfs(int node, int par)
 {
     vis[node] = 1;
+    parent[node] = par;
     for (auto &nbr : graph[node])
     {
         if (vis[nbr] == 0)
         {
             dfs(nbr, node);
         }
-        else if (vis[nbr] == 1 && parent != nbr)
+        else if (vis[nbr] == 1 && par != nbr)
         {
             cycle = true;
-            cout << "Backedge : " << node << " -> " << nbr << endl;
+            int curr = node;
+            int destination = nbr;
+            while (curr != destination)
+            {
+                cout << curr << " -> ";
+                curr = parent[curr];
+            }
+            cout << destination << endl;
+            exit(0);
         }
     }
     vis[node] = 2;
@@ -46,7 +58,7 @@ int main()
     //     int u,v;
     //     cin>>u>>v;
     //     graph[u].push_back(v);
-    // }git remote add origin https://github.com/Uday-Berad22/Udemy-Graph-Questions-and-Code.git
+    // }
 
     for (int i = 1; i <= n; i++)
     {
